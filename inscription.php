@@ -51,7 +51,7 @@ deconnexion();
         <input type="password" name="password1" id="password1">
         <h2>Confirmez votre mot de passe</h2>
         <input type="password" name="password2" id="password2">
-        <input id="btnsubmit" type="submit" value="Se connecter">
+        <input name="submit" id="btnsubmit" type="submit" value="Se connecter">
       </form>
     </div>
   </main>
