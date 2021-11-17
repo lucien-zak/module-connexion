@@ -1,0 +1,81 @@
+* {
+    list-style: none;
+    color: currentColor;
+    text-decoration: none;
+}
+
+body, ul {
+    margin: 0;
+    top: 0;
+}
+
+#barnav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: darkgrey;
+    position: relative;
+}
+
+#barnav span {
+    position: absolute;
+    left: 10px;
+    display: flex;
+}
+
+#barnav input {
+background-color: red;}
+
+
+#barnav li {
+    padding: 10px;
+    font-size: 1.2em;
+    transition: all 330ms ease-in-out ;
+}
+
+#barnav li:hover {
+    background-color: black;
+    color: white;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+#blcconnexion {
+    background-color: whitesmoke;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#blcconnexion form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#blcconnexion h1 {
+    margin : 10px
+}
+
+#blcconnexion form input {
+    width: 100%;
+}
+
+#btnsubmit {
+    width: 10%;
+    color: whitesmoke;
+    background-color: blue;
+    padding: 10px;
+    margin: 20px;
+    border-radius: 20px;
+}
+
