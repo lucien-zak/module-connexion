@@ -19,14 +19,19 @@ body, ul {
     position: relative;
 }
 
+
+
 #barnav span {
     position: absolute;
     left: 10px;
     display: flex;
 }
 
-#barnav input {
-background-color: red;}
+#deco {
+background-color: red;
+transform: translateX(10px);
+border-radius: 10%;
+}
 
 
 #barnav li {
