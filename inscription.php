@@ -1,25 +1,10 @@
 <?php
 session_start();
 require "./fonctions.php";
-
-
-
+redirect_estconnecte();
 deconnexion();
+include './header.php';
 ?>
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
-  <link rel="stylesheet" href="./CSS/styles.css">
-  <title>Inscription</title>
-</head>
-
 <body>
   <header>
     <nav>
@@ -39,23 +24,18 @@ deconnexion();
   </header>
   <main>
     <div id="blcconnexion">
-      <h1>Formulaire d'inscription</h1>
+      <h1>Inscrivez vous !</h1>
       <h2><?php inscription() ?></h2>
       <form action="" method="post">
-        <h2>Nom d'utilisateur</h2>
-        <input type="text" name="login" id="login">
-        <h2>Nom</h2>
-        <input type="text" name="nom" id="nom">
-        <h2>Prénom</h2>
-        <input type="text" name="prenom" id="prenom">
-        <h2>Mot de passe</h2>
-        <input type="password" name="password1" id="password1">
-        <h2>Confirmez votre mot de passe</h2>
-        <input type="password" name="password2" id="password2">
+        <input placeholder="Login" type="text" name="login" id="login">
+        <input placeholder="Nom"ype="text" name="nom" id="nom">
+        <input placeholder="Prénom" type="text" name="prenom" id="prenom">
+        <input placeholder="Mot de passe" type="password" name="password1" id="password1">
+        <input placeholder="Confirmer votre mot de passe" type="password" name="password2" id="password2">
         <input name="submit" id="btnsubmit" type="submit" value="Se connecter">
       </form>
     </div>
   </main>
-  <footer>
-  </footer>
-</body>
+  <?php 
+  include './footer.php';
+  ?>

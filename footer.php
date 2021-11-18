@@ -1,15 +1,7 @@
-<?php
-session_start();
-require "./fonctions.php";
-deconnexion();
-redirect_nonadmin();
-require("header.php");
-?>
-<body>
-    <header>
-        <nav>
+<footer>
+    <nav>
             <ul id="barnav">
-                <span><?php bienvenu() ?></span>
+                <span>Mon Github : https://github.com/lucien-zak/</span>
                 <?php if (estconnecte()) { ?>
                     <li><a href="./index.php">Page acceuil</a></li>
                     <li><a href="./profil.php">Profil</a></li>
@@ -21,16 +13,6 @@ require("header.php");
                 <?php } ?>
             </ul>
         </nav>
-    </header>
-    <main>
-        <div id="blcconnexion">
-            <table>
-                <?php recupinfobase_tableau() ?>
-            </table>
-        </div>
-    </main>
-    <footer>
     </footer>
 </body>
-
-<?php require("footer.php"); ?>
+</html>

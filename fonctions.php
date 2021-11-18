@@ -13,10 +13,10 @@ function verif_connexion()
         echo '<style>h3 {color: red}</style><h3>Mot de passe faux</h3>';
     }
     if ($_POST['username'] == $res[0]['login'] && $_POST['password'] == $res[0]['password'] && isset($_POST['username'])) {
-        echo '<style>h3 {color: green}</style><h3>Connexion Réussie</h3>';
+        echo '<style>h3 {color: green;padding:10px; font-size:1em;}</style><h3>Bonjour '.ucfirst($res[0]['prenom']).' ,redirection en cours...</h3>';
         $_SESSION['user'] = $res[0]['login'];
-        header('Location: ./index.php');
-    }
+        header("Refresh: 3; url=index.php");            
+}
 }
 function bienvenu()
 {
@@ -24,7 +24,7 @@ function bienvenu()
     $req = mysqli_query($db, 'SELECT * FROM utilisateurs WHERE login="' . $_SESSION['user'] . '"');
     $res = mysqli_fetch_all($req, MYSQLI_ASSOC);
     if (isset($_SESSION['user'])) {
-        echo "Bienvenue " . $res[0]['prenom'] . " <form action='' method='post'><input type='hidden' name='deconnexion'><input id='deco' type='submit' value='Se deconnecter'></form>";
+        echo "Bienvenue " . ucfirst($res[0]['prenom']) . " <form action='' method='post'><input type='hidden' name='deconnexion'><input id='deco' type='submit' value='Se deconnecter'></form>";
     } else {
         echo "Vous n'etes pas connecté";
     }
@@ -64,7 +64,8 @@ function inscription()
             } else {
                 mysqli_query($db, 'INSERT INTO utilisateurs(login, prenom, nom, password) VALUES ("' . $_POST['login'] . '","' . $_POST['prenom'] . '","' . $_POST['nom'] . '","' . $_POST['password1'] . '")');
                 $_SESSION['user'] = $_POST['login'];
-                header('Location: ./index.php');
+                echo ' Bonjour '.$_POST['prenom'].' ,redirection en cours... ';
+                header("Refresh: 3; url=index.php");            
             }
         }
     }
@@ -76,6 +77,15 @@ function redirect_nonconnecte()
         header('Location: ./connexion.php');
     }
 }
+
+function redirect_estconnecte()
+{
+    if (estconnecte() == true) {
+        header('Location: ./profil.php');
+    }
+}
+
+
 
 function estadmin()
 {
@@ -97,6 +107,17 @@ function modifierprofil()
     $db = mysqli_connect("localhost", "root", "root", "module-connexion");
     $req = mysqli_query($db, 'SELECT * FROM utilisateurs WHERE login="' . $_SESSION['user'] . '"');
     $res = mysqli_fetch_all($req, MYSQLI_ASSOC);
+    $req2 = mysqli_query($db, 'SELECT login FROM utilisateurs WHERE login!="' . $_SESSION['user'] . '"  ');
+    $res2 = mysqli_fetch_all($req2, MYSQLI_ASSOC);
+    foreach ($res2 as $element) {
+        foreach ($element as $key => $element2) {
+            if ($element2 == $_POST['login']){
+            echo 'Ce compte existe déjà';
+            return;
+        }
+    }
+}
+
     if (isset($_POST['submit'])) {
         if ($_POST['password1'] != $_POST['password2']) {
             echo 'Les mots de passes ne correspondent pas';
@@ -104,9 +125,48 @@ function modifierprofil()
             if (empty($_POST['submit']) or empty($_POST['nom']) or empty($_POST['prenom']) or empty($_POST['password1'])) {
                 echo 'Un champ est vide';
             } else {
-                mysqli_query($db, 'UPDATE utilisateurs SET nom ="' . $_POST['nom'] . '",prenom ="' . $_POST['prenom'] . '",password ="' . $_POST['password1'] . '" WHERE login="' . $_POST['login'] . '"');
+                mysqli_query($db, 'UPDATE utilisateurs SET login ="' . $_POST['login'] . '",nom ="' . $_POST['nom'] . '",prenom ="' . $_POST['prenom'] . '",password ="' . $_POST['password1'] . '" WHERE login="' . $res[0]['login'] . '"');
+                $_SESSION['user'] = $_POST['login'];
                 echo "L'utilisateur a été modifié avec succès";
+                header('refresh:1');
             }
         }
     }
 }
+
+function recupinfobase_tableau()
+{
+    $db = mysqli_connect("localhost", "root", "root", "module-connexion");
+    $req = mysqli_query($db, 'SELECT id, nom AS Nom, prenom AS Prénom, login AS Login, password AS "Mot de passe" FROM utilisateurs');
+    $res = mysqli_fetch_all($req, MYSQLI_ASSOC);
+    foreach ($res as $element) {
+        echo '<thead><tr>';
+        foreach ($element as $key => $element2) {
+            echo '<th>' . $key . '</th>';
+        }
+        echo '</tr></thead>';
+        break;
+    }
+    foreach ($res as $element) {
+        echo "<tr>";
+        foreach ($element as $key => $element2) {
+            echo "<td>" . $element2 . "</td>";
+        }
+        echo "</tr>";
+    }
+
+    // function recup_ligne()
+    // {
+    //     $db = mysqli_connect("localhost", "root", "root", "jour08");
+    //     $req = mysqli_query($db, "SELECT * FROM etudiants");
+    //     $res = mysqli_fetch_all($req, MYSQLI_ASSOC);
+    //     foreach ($res as $element) {
+    //         echo "<tr>";
+    //         foreach ($element as $key => $element2) {
+    //             echo "<td>" . $element2 . "</td>";
+    //         }
+    //         echo "</tr>";
+    //     }
+    // }
+}
+?>
