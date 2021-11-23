@@ -147,13 +147,54 @@ function recupinfobase_tableau()
         echo '</tr></thead>';
         break;
     }
+    $i = 0;
     foreach ($res as $element) {
         echo "<tr>";
         foreach ($element as $key => $element2) {
             echo "<td>" . $element2 . "</td>";
+            
         }
-        echo "</tr>";
+        echo "<td><form action='#' method='POST'><input name='id' type='hidden' value=".$res[$i]['id']."><input type='submit' value='modifier'></form></td></tr>";
+        $i++;
+        if (isset($_POST['id'])) {
+            $_SESSION['modifutilid'] = $_POST['id'];
+            header('location:modifutil.php');
+        }
     }
+
+}
+
+    function modifierprofiladmin()
+{
+    $db = mysqli_connect("localhost", "root", "root", "module-connexion");
+    $req = mysqli_query($db, 'SELECT * FROM utilisateurs WHERE id="' . $_SESSION['modifutilid'] . '"');
+    $res = mysqli_fetch_all($req, MYSQLI_ASSOC);
+    $req2 = mysqli_query($db, 'SELECT login FROM utilisateurs WHERE id!="' . $_SESSION['modifutilid'] . '"  ');
+    $res2 = mysqli_fetch_all($req2, MYSQLI_ASSOC);
+    foreach ($res2 as $element) {
+        foreach ($element as $key => $element2) {
+            if ($element2 == $_POST['login']){
+            echo 'Ce compte existe déjà';
+            return;
+        }
+    }
+}
+
+    if (isset($_POST['submit'])) {
+        if ($_POST['password1'] != $_POST['password2']) {
+            echo 'Les mots de passes ne correspondent pas';
+        } else {
+            if (empty($_POST['submit']) or empty($_POST['nom']) or empty($_POST['prenom']) or empty($_POST['password1'])) {
+                echo 'Un champ est vide';
+            } else {
+                mysqli_query($db, 'UPDATE utilisateurs SET login ="' . $_POST['login'] . '",nom ="' . $_POST['nom'] . '",prenom ="' . $_POST['prenom'] . '",password ="' . $_POST['password1'] . '" WHERE login="' . $res[0]['login'] . '"');
+                echo "L'utilisateur a été modifié avec succès";
+                header('refresh:1');
+            }
+        }
+    }
+}
+
 
     // function recup_ligne()
     // {
@@ -168,5 +209,6 @@ function recupinfobase_tableau()
     //         echo "</tr>";
     //     }
     // }
-}
+
 ?>
+
